@@ -12,5 +12,14 @@ router.get("/", async (req, res, next) => {
     }
 })
 
+// make it CRUD
+// CREATE
+
+// READ
+
+// UPDATE
+
+// DESTROY
+
 
 module.exports = router
