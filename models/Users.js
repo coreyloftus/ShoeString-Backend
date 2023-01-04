@@ -7,3 +7,5 @@ const UsersSchema = new mongoose.Schema({
     comments: { type: [String] },
     tags: { type: [String] },
 })
+const Users = mongoose.model("Users", UsersSchema)
+module.exports = Users

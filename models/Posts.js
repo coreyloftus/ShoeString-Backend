@@ -9,5 +9,5 @@ const PostsSchema = new mongoose.Schema(
     },
     { timestamps: true }
 )
- const Posts = mongoose.model("Posts", PostsSchema)
- module.exports = Posts
+const Posts = mongoose.model("Posts", PostsSchema)
+module.exports = Posts

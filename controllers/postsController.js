@@ -7,7 +7,8 @@ router.use(express.json())
 // http://localhost:4000/posts
 router.get("/", async (req, res, next) => {
     try {
-        res.status(200).json({ message: "posts index route here" })
+        const foundPosts = await Posts.find()
+        res.status(200).json({ foundPosts })
     } catch (err) {
         res.status(400).json({ error: err })
         return next(err)
@@ -39,7 +40,7 @@ router.get("/:id", async (req, res, next) => {
 router.put("/:id", async (req, res, next) => {
     try {
         const updatePost = await Posts.findByIdAndUpdate(req.params.id, req.body, { new: true })
-        res.status(200).json({ message: "successfully updated", updatePost })
+        res.status(201).json({ message: "successfully updated", updatePost })
     } catch (err) {
         res.status(400).json({ error: err })
         return next(err)
