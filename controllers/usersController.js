@@ -26,7 +26,7 @@ router.post("/", async (req, res, next) => {
     }
 })
 // READ
-// http://localhost:4000/users
+// http://localhost:4000/users/:id
 router.get("/:id", async (req, res, next) => {
     try {
         const foundUser = await Users.findById(req.params.id)
@@ -37,7 +37,7 @@ router.get("/:id", async (req, res, next) => {
     }
 })
 // UPDATE
-// http://localhost:4000/users
+// http://localhost:4000/users/:id
 router.put("/:id", async (req, res, next) => {
     try {
         const updateUser = await Users.findByIdAndUpdate(req.params.id, req.body, { new: true })
@@ -48,7 +48,7 @@ router.put("/:id", async (req, res, next) => {
     }
 })
 // DESTROY
-// http://localhost:4000/users
+// http://localhost:4000/users/:id
 router.delete("/:id", async (req, res, next) => {
     try {
         const deletedUser = await Users.findByIdAndDelete(req.params.id)

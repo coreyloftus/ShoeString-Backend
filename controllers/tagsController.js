@@ -15,7 +15,7 @@ router.get("/", async (req, res, next) => {
 })
 
 // CREATE
-// http://localhost:4000/users
+// http://localhost:4000/tags
 router.post("/", async (req, res, next) => {
     try {
         const createTag = await Tags.create(req.body)
@@ -26,7 +26,7 @@ router.post("/", async (req, res, next) => {
     }
 })
 // READ
-// http://localhost:4000/users
+// http://localhost:4000/tags/:id
 router.get("/:id", async (req, res, next) => {
     try {
         const foundTag = await Tags.findById(req.params.id)
@@ -37,7 +37,7 @@ router.get("/:id", async (req, res, next) => {
     }
 })
 // UPDATE
-// http://localhost:4000/users
+// http://localhost:4000/tags/:id
 router.put("/:id", async (req, res, next) => {
     try {
         const updateTag = await Users.findByIdAndUpdate(req.params.id, req.body, { new: true })
@@ -48,7 +48,7 @@ router.put("/:id", async (req, res, next) => {
     }
 })
 // DESTROY
-// http://localhost:4000/users
+// http://localhost:4000/tags/:id
 router.delete("/:id", async (req, res, next) => {
     try {
         const deletedTag = await Users.findByIdAndDelete(req.params.id)
