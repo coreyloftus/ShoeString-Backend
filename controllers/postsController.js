@@ -20,15 +20,14 @@ router.get("/", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
     if (req.body.tags) {
         try {
-            console.log(req.body.tags)
-            const foundTag = await Tags.findOne({ title: req.body.tags })
+            let foundTag = await Tags.findOne({ title: req.body.tags })
+            if (foundTag === null) {
+                const createTag = await Tags.create({ title: req.body.tags })
+                foundTag = createTag
+            }
             req.body.tags = foundTag._id
             const createPost = await Posts.create(req.body)
             res.json(createPost)
-            //  () => {
-            //       console.log("tag not in db")
-            //       res.json({ message: "tag not found" })
-            //   }
         } catch (err) {
             res.status(400).json({ error: err })
             return next(err)
