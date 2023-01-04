@@ -13,8 +13,9 @@ router.get("/", async (req, res, next) => {
         return next(err)
     }
 })
-// make it CRUD
+
 // CREATE
+// http://localhost:4000/users
 router.post("/", async (req, res, next) => {
     try {
         const createUser = await Users.create(req.body)
@@ -25,6 +26,7 @@ router.post("/", async (req, res, next) => {
     }
 })
 // READ
+// http://localhost:4000/users
 router.get("/:id", async (req, res, next) => {
     try {
         const foundUser = await Users.findById(req.params.id)
@@ -35,6 +37,7 @@ router.get("/:id", async (req, res, next) => {
     }
 })
 // UPDATE
+// http://localhost:4000/users
 router.put("/:id", async (req, res, next) => {
     try {
         const updateUser = await Users.findByIdAndUpdate(req.params.id, req.body, { new: true })
@@ -45,6 +48,7 @@ router.put("/:id", async (req, res, next) => {
     }
 })
 // DESTROY
+// http://localhost:4000/users
 router.delete("/:id", async (req, res, next) => {
     try {
         const deletedUser = await Users.findByIdAndDelete(req.params.id)
