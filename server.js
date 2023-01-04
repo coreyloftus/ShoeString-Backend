@@ -8,6 +8,7 @@ const usersController = require('./controllers/usersController')
 const tagsController = require('./controllers/tagsController')
 
 require('dotenv').config()
+require('./config/db.connection')
 
 const { PORT } = process.env
 
