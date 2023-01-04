@@ -1,5 +1,5 @@
 const express = require("express")
-const { Posts, Tags } = require("../models")
+const { Posts, Tags } = require("../models/Posts")
 const router = express.Router()
 router.use(express.json())
 
@@ -7,7 +7,7 @@ router.use(express.json())
 // http://localhost:4000/posts
 router.get("/", async (req, res, next) => {
     try {
-        const foundPosts = await Posts.find()
+        const foundPosts = await Posts.find().populate("tags")
         res.status(200).json({ foundPosts })
     } catch (err) {
         res.status(400).json({ error: err })
@@ -18,36 +18,24 @@ router.get("/", async (req, res, next) => {
 // make it CRUD
 // CREATE
 router.post("/", async (req, res, next) => {
-    try {
-        // check req.body to see if user is adding tags to their post
-        req.body.tags
-            ? // YES -- user is adding a tag
-              // Tags.find(req.body.tags) to see if it already exists
-              async (req, res, next) => {
-                  const foundTag = await Tags.find({ tags: req.body.tags })
-                  console.log(foundTag[0]._id)
-                  //   res.status(201).json({ message: "created post", createPost, message: "tag exists", foundTag })
-              }
-            : // if yes
-              // grab the Tag._id, store it in a variable
-              // make a PUT REQ to change the User's Post Tag from the word itself into the Atlas ID of the tag in the Tag Collection
-              //  if no
-              //  create the tag
-              // Tags.create
-              // grab the Tag._id, store it in a variable
-              // make a PUT REQ to change the User's Post Tag from the word itself into the Atlas ID of the tag in the Tag Collection
-              //   if tag doesn't exist,
-              //  do a POST req to create the tag in Tags collection on Atlas
-              // then do a PUT req to change the req.body.tags to the Tag._id in Atlas
-              async (req, res, next) => {
-                  const createTag = await Tags.create(req.body.tags)
-                  res.status(201).json({ message: "created post", createPost, message: "new tag", createTag })
-              }
+    if (req.body.tags) {
+        try {
+            console.log(req.body.tags)
+            const foundTag = await Tags.findOne({ title: req.body.tags })
+            req.body.tags = foundTag._id
+            const createPost = await Posts.create(req.body)
+            res.json(createPost)
+            //  () => {
+            //       console.log("tag not in db")
+            //       res.json({ message: "tag not found" })
+            //   }
+        } catch (err) {
+            res.status(400).json({ error: err })
+            return next(err)
+        }
+    } else {
         const createPost = await Posts.create(req.body)
-        res.status(201).json({ message: "created post", createPost })
-    } catch (err) {
-        res.status(400).json({ error: err })
-        return next(err)
+        res.json({ message: "no tags in message", createPost })
     }
 })
 
