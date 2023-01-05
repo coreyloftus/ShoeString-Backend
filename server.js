@@ -27,7 +27,9 @@ app.get("/users", (req, res) => {
 app.get("/tags", (req, res) => {
     res.redirect("/tags")
 })
-
+app.get('/', (req,res) => {
+    res.redirect('/posts')
+})
 app.listen(PORT, () => {
     console.log(`listening on port ${PORT}`)
 })
