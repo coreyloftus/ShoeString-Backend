@@ -1,5 +1,5 @@
 const express = require("express")
-const { Posts } = require("../models")
+const { Posts, Tags } = require("../models/Posts")
 const router = express.Router()
 router.use(express.json())
 
@@ -7,7 +7,7 @@ router.use(express.json())
 // http://localhost:4000/posts
 router.get("/", async (req, res, next) => {
     try {
-        const foundPosts = await Posts.find()
+        const foundPosts = await Posts.find().populate("tags")
         res.status(200).json({ foundPosts })
     } catch (err) {
         res.status(400).json({ error: err })
@@ -18,15 +18,28 @@ router.get("/", async (req, res, next) => {
 // make it CRUD
 // CREATE
 router.post("/", async (req, res, next) => {
-    try {
+    if (req.body.tags) {
+        try {
+            let foundTag = await Tags.findOne({ title: req.body.tags })
+            if (foundTag === null) {
+                const createTag = await Tags.create({ title: req.body.tags })
+                foundTag = createTag
+            }
+            req.body.tags = foundTag._id
+            const createPost = await Posts.create(req.body)
+            res.json(createPost)
+        } catch (err) {
+            res.status(400).json({ error: err })
+            return next(err)
+        }
+    } else {
         const createPost = await Posts.create(req.body)
-        res.status(201).json({ mesage: "created post", createPost })
-    } catch (err) {
-        res.status(400).json({ error: err })
-        return next(err)
+        res.json({ message: "no tags in message", createPost })
     }
 })
+
 // READ
+// http://localhost:4000/posts/:id
 router.get("/:id", async (req, res, next) => {
     try {
         const foundPost = await Posts.findById(req.params.id)
@@ -37,6 +50,7 @@ router.get("/:id", async (req, res, next) => {
     }
 })
 // UPDATE
+// http://localhost:4000/posts/:id
 router.put("/:id", async (req, res, next) => {
     try {
         const updatePost = await Posts.findByIdAndUpdate(req.params.id, req.body, { new: true })
@@ -47,6 +61,7 @@ router.put("/:id", async (req, res, next) => {
     }
 })
 // DESTROY
+// http://localhost:4000/posts/:id
 router.delete("/:id", async (req, res, next) => {
     try {
         const deletedPost = await Posts.findByIdAndDelete(req.params.id)
