@@ -10,7 +10,7 @@ const tagsController = require("./controllers/tagsController")
 require("dotenv").config()
 require("./config/db.connection")
 
-const { PORT } = process.env
+const { PORT } = process.env || 4000
 
 app.use(cors())
 app.use(morgan("dev"))
