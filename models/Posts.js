@@ -10,9 +10,11 @@ const PostsSchema = new mongoose.Schema(
     {
         title: { type: String, required: true },
         author: { type: String, required: true },
+        location: [{ type: Number }],
         images: [{ type: String }],
         body: { type: String, required: true },
         tags: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tags" }],
+        likes: { type: Number, default: 0 },
     },
     { timestamps: true }
 )
