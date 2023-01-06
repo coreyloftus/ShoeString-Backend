@@ -1,6 +1,6 @@
 const express = require("express")
 const app = express()
-const cors = require("cors")
+// const cors = require("cors")
 const morgan = require("morgan")
 
 const postsController = require("./controllers/postsController")
@@ -12,7 +12,7 @@ require("./config/db.connection")
 
 const { PORT } = process.env || 4000
 
-app.use(cors())
+// app.use(cors())
 app.use(morgan("dev"))
 app.use("/posts", postsController)
 app.use("/users", usersController)
