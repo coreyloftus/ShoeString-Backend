@@ -8,11 +8,11 @@ const TagsSchema = new mongoose.Schema(
 )
 const PostsSchema = new mongoose.Schema(
     {
-        title: { type: String, required: true },
-        username: { type: String, required: true },
+        title: { type: String },
+        username: { type: String },
         location: [{ type: Number }],
         img: [{ type: String }],
-        body: { type: String, required: true },
+        body: { type: String },
         tags: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tags" }],
         likes: { type: Number, default: 0 },
         comments: [{ type: String }],
