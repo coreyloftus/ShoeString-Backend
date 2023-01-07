@@ -1,11 +1,5 @@
 const mongoose = require("mongoose")
 
-const TagsSchema = new mongoose.Schema(
-    {
-        title: { type: String },
-    },
-    { timestamps: true }
-)
 const PostsSchema = new mongoose.Schema(
     {
         title: { type: String },
@@ -16,11 +10,13 @@ const PostsSchema = new mongoose.Schema(
         tags: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tags" }],
         likes: { type: Number, default: 0 },
         comments: [{ type: String }],
+        owner: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Users",
+            required: true,
+        },
     },
     { timestamps: true }
 )
 
-const Tags = mongoose.model("Tags", TagsSchema)
-const Posts = mongoose.model("Posts", PostsSchema)
-
-module.exports = { Posts, Tags }
+module.exports = mongoose.model("Posts", PostsSchema)
