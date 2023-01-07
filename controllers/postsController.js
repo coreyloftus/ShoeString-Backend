@@ -1,14 +1,15 @@
 const express = require("express")
-const { Posts, Tags } = require("../models/Posts")
+const Posts = require("../models/Posts")
+const Tags = require("../models/Tags")
 const router = express.Router()
 router.use(express.json())
 
-// test index route
+// index route
 // http://localhost:4000/posts
 router.get("/", async (req, res, next) => {
     try {
-        const foundPosts = await Posts.find().populate("tags")
-        res.status(200).json({ foundPosts })
+        const allPosts = await Posts.find().populate("tags").populate("owner")
+        res.status(200).json({ allPosts })
     } catch (err) {
         res.status(400).json({ error: err })
         return next(err)
@@ -42,7 +43,7 @@ router.post("/", async (req, res, next) => {
 // http://localhost:4000/posts/:id
 router.get("/:id", async (req, res, next) => {
     try {
-        const foundPost = await Posts.findById(req.params.id)
+        const foundPost = await Posts.findById(req.params.id).populate("tags").populate("owner")
         res.status(200).json({ foundPost })
     } catch (err) {
         res.status(400).json({ error: err })
