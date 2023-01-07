@@ -43,7 +43,7 @@ router.post("/", async (req, res, next) => {
 // http://localhost:4000/posts/:id
 router.get("/:id", async (req, res, next) => {
     try {
-        const foundPost = await Posts.findById(req.params.id).populate("owner", "tags")
+        const foundPost = await Posts.findById(req.params.id).populate("tags").populate("owner")
         res.status(200).json({ foundPost })
     } catch (err) {
         res.status(400).json({ error: err })
