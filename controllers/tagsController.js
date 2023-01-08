@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 router.use(express.json())
-const { Tags } = require("../models/Posts")
+const Tags = require("../models/Tags")
 
 // http://localhost:4000/tags
 router.get("/", async (req, res, next) => {
@@ -19,7 +19,7 @@ router.get("/", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
     try {
         const createTag = await Tags.create(req.body)
-        res.status(201).json({ mesage: "created tag", createTag })
+        res.status(201).json({ message: "created tag", createTag })
     } catch (err) {
         res.status(400).json({ error: err })
         return next(err)
