@@ -2,28 +2,34 @@ const express = require("express")
 const app = express()
 // const cors = require("cors")
 const morgan = require("morgan")
+const bodyParser = require("body-parser")
 
 const postsController = require("./controllers/postsController")
 const usersController = require("./controllers/usersController")
 const tagsController = require("./controllers/tagsController")
-// const authController = require("./controllers/authController")
+const authController = require("./controllers/authController")
 
 require("dotenv").config()
 require("./config/db.connection")
 
 const { PORT } = process.env || 4000
 
+// parse application/json
+app.use(bodyParser.json())
+
 // app.use(cors())
 app.use(morgan("dev"))
 
+// proxy to get around CORS refused connection issue
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*")
+    console.log(req.body)
     next()
 })
 app.use("/posts", postsController)
 app.use("/users", usersController)
 app.use("/tags", tagsController)
-// app.use("/auth", authController)
+app.use("/auth", authController)
 
 // res.redirect("/posts")
 app.get("/posts", (req, res) => {
