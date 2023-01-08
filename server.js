@@ -1,19 +1,19 @@
 const express = require("express")
 const app = express()
-const cors = require("cors")
+// const cors = require("cors")
 const morgan = require("morgan")
 
 const postsController = require("./controllers/postsController")
 const usersController = require("./controllers/usersController")
 const tagsController = require("./controllers/tagsController")
-const authController = require("./controllers/authController")
+// const authController = require("./controllers/authController")
 
 require("dotenv").config()
 require("./config/db.connection")
 
 const { PORT } = process.env || 4000
 
-app.use(cors())
+// app.use(cors())
 app.use(morgan("dev"))
 
 app.use((req, res, next) => {
@@ -23,7 +23,7 @@ app.use((req, res, next) => {
 app.use("/posts", postsController)
 app.use("/users", usersController)
 app.use("/tags", tagsController)
-app.use("/auth", authController)
+// app.use("/auth", authController)
 
 // res.redirect("/posts")
 app.get("/posts", (req, res) => {
