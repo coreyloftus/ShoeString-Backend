@@ -10,11 +10,11 @@ const PostsSchema = new mongoose.Schema(
         tags: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tags" }],
         likes: { type: Number, default: 0 },
         comments: [{ type: String }],
-        owner: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Users",
-            required: true,
-        },
+        // owner: {
+        //     type: mongoose.Schema.Types.ObjectId,
+        //     ref: "Users",
+        //     required: true,
+        // },
     },
     { timestamps: true }
 )
