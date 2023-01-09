@@ -25,8 +25,8 @@ router.get("/", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
     if (req.body.tags) {
         try {
-            const owner = req.user._id
-            req.body.owner = owner
+            // const owner = req.user._id
+            // req.body.owner = owner
             // if user post includes tags, search to see if they exist
             let foundTag = await Tags.findOne({ title: req.body.tags })
             // if tag does NOT YET exist, create it and assign to req.body.tags
@@ -65,7 +65,7 @@ router.get("/:id", async (req, res, next) => {
 // router.put("/:id", requireToken, async (req, res, next) => {
 router.put("/:id", async (req, res, next) => {
     try {
-        handleValidateOwnership(req, await Posts.findByIdAndUpdate(req.params.id))
+        // handleValidateOwnership(req, await Posts.findByIdAndUpdate(req.params.id))
         // if user post includes tags, search to see if they exist
         let foundTag = await Tags.findOne({ title: req.body.tags })
         // if tag does NOT YET exist, create it and assign to req.body.tags
@@ -89,7 +89,7 @@ router.put("/:id", async (req, res, next) => {
 // router.delete("/:id", requireToken, async (req, res, next) => {
 router.delete("/:id", async (req, res, next) => {
     try {
-        handleValidateOwnership(req, await Posts.findById(req.params.id))
+        // handleValidateOwnership(req, await Posts.findById(req.params.id))
         const deletedPost = await Posts.findByIdAndDelete(req.params.id)
         res.status(200).json({ message: "successfully deleted", deletedPost })
     } catch (err) {
