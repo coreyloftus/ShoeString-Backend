@@ -21,7 +21,8 @@ router.get("/", async (req, res, next) => {
 // make it CRUD
 // CREATE
 // token must be in the POST request header as {Authorization: Bearer (token here with no parenthesis or quotes)}
-router.post("/", requireToken, async (req, res, next) => {
+// router.post("/", requireToken, async (req, res, next) => {
+router.post("/", async (req, res, next) => {
     if (req.body.tags) {
         try {
             const owner = req.user._id
@@ -61,7 +62,8 @@ router.get("/:id", async (req, res, next) => {
 })
 // UPDATE
 // http://localhost:4000/posts/:id
-router.put("/:id", requireToken, async (req, res, next) => {
+// router.put("/:id", requireToken, async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
     try {
         handleValidateOwnership(req, await Posts.findByIdAndUpdate(req.params.id))
         // if user post includes tags, search to see if they exist
@@ -83,7 +85,8 @@ router.put("/:id", requireToken, async (req, res, next) => {
 })
 // DESTROY
 // http://localhost:4000/posts/:id
-router.delete("/:id", requireToken, async (req, res, next) => {
+// router.delete("/:id", requireToken, async (req, res, next) => {
+router.delete("/:id", async (req, res, next) => {
     try {
         handleValidateOwnership(req, await Posts.findById(req.params.id))
         const deletedPost = await Posts.findByIdAndDelete(req.params.id)
