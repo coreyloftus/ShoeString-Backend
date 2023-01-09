@@ -23,7 +23,7 @@ router.get("/", async (req, res, next) => {
 router.post("/", requireToken, async (req, res, next) => {
     if (req.body.tags) {
         try {
-            const owner = req.username._id
+            const owner = req.user._id
             req.body.owner = owner
             // if user post includes tags, search to see if they exist
             let foundTag = await Tags.findOne({ title: req.body.tags })
