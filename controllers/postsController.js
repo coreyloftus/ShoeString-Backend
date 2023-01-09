@@ -4,13 +4,14 @@ const Tags = require("../models/Tags")
 const router = express.Router()
 router.use(express.json())
 
-const { handleValidateOwnership, requireToken } = require("../middleware/auth")
+// const { handleValidateOwnership, requireToken } = require("../middleware/auth")
 
 // index route
 // http://localhost:4000/posts
 router.get("/", async (req, res, next) => {
     try {
-        const allPosts = await Posts.find().populate("tags").populate("owner")
+        // const allPosts = await Posts.find().populate("tags").populate("owner")
+        const allPosts = await Posts.find().populate("tags")
         res.status(200).json({ allPosts })
     } catch (err) {
         res.status(400).json({ error: err })
@@ -53,7 +54,8 @@ router.post("/", async (req, res, next) => {
 // http://localhost:4000/posts/:id
 router.get("/:id", async (req, res, next) => {
     try {
-        const foundPost = await Posts.findById(req.params.id).populate("tags").populate("owner")
+        // const foundPost = await Posts.findById(req.params.id).populate("tags").populate("owner")
+        const foundPost = await Posts.findById(req.params.id).populate("tags")
         res.status(200).json({ foundPost })
     } catch (err) {
         res.status(400).json({ error: err })
