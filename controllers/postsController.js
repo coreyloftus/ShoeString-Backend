@@ -85,6 +85,7 @@ router.put("/:id", async (req, res, next) => {
 })
 // DESTROY
 // http://localhost:4000/posts/:id
+// removed requiretoken to get us to MVP
 // router.delete("/:id", requireToken, async (req, res, next) => {
 router.delete("/:id", async (req, res, next) => {
     try {
