@@ -72,8 +72,9 @@ router.put("/:id", requireToken, async (req, res, next) => {
 })
 // DESTROY
 // http://localhost:4000/posts/:id
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", requireToken, async (req, res, next) => {
     try {
+        handleValidateOwnership(req, await Posts.findById(req.params.id))
         const deletedPost = await Posts.findByIdAndDelete(req.params.id)
         res.status(200).json({ message: "successfully deleted", deletedPost })
     } catch (err) {
