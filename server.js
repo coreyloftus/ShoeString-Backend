@@ -20,25 +20,12 @@ app.use(bodyParser.json())
 app.use(cors())
 app.use(morgan("dev"))
 
-// proxy to get around CORS refused connection issue
-// app.use((req, res, next) => {
-//     res.header("Access-Control-Allow-Origin", "*")
-//     console.log(req.body)
-//     next()
-// })
 app.use("/posts", postsController)
 app.use("/users", usersController)
 app.use("/tags", tagsController)
 app.use("/auth", authController)
 
-// res.redirect("/posts")
 app.get("/posts", (req, res) => {
-    // request({ url: "https://shoe-string.herokuapp.com/posts" }, (error, response, body) => {
-    //     if (error || response.statusCode !== 200) {
-    //         return res.status(500).json({ type: "error", message: err.message })
-    //     }
-    //     res.json(JSON.parse(body))
-    // })
     res.redirect("/posts")
 })
 app.get("/users", (req, res) => {
