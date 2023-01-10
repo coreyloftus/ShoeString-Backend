@@ -21,20 +21,8 @@ router.get("/", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
     if (req.body.tags) {
         try {
-            //     // if user post includes tags, search to see if they exist
-            //     let foundTag = await Tags.findOne({ title: req.body.tags })
-            //     // if tag does NOT YET exist, create it and assign to req.body.tags
-            //     if (foundTag === null) {
-            //         const createTag = await Tags.create({ title: req.body.tags })
-            //         foundTag = createTag
-            //     }
-            //     // if tag DOES already exist, grab existing tag's ID and assign it to req.body.tags
-            //     // so that way all posts that use this tag reference the same tag
-            //     req.body.tags = foundTag._id
             let tagsStrs = req.body.tags
             let tagsIDs = []
-            console.log(tagsStrs)
-            console.log(tagsStrs.length)
             // if user post includes tags, search to see if they exist
             if (tagsStrs.length > 0) {
                 for (i = 0; i < tagsStrs.length; i++) {
@@ -43,10 +31,8 @@ router.post("/", async (req, res, next) => {
                     if (foundTag === null) {
                         const createTag = await Tags.create({ title: tagsStrs[i] })
                         newTag = createTag
-                        console.log(`new tag | ${tagsStrs[i]} | created`)
                         tagsIDs.push(newTag._id)
                     } else {
-                        console.log(`existing tag | ${tagsStrs[i]} | added`)
                         // if tag DOES already exist, push existing tag's ID into temp arr
                         tagsIDs.push(foundTag._id)
                     }
@@ -82,10 +68,8 @@ router.put("/:id", async (req, res, next) => {
     try {
         let tagsStrs = req.body.tags
         let tagsIDs = []
-        console.log(tagsStrs)
-        console.log(tagsStrs.length)
         // if user post includes tags, search to see if they exist
-        if (tagsStrs.length > 0) {
+        if (tagsStrs && tagsStrs.length > 0) {
             for (i = 0; i < tagsStrs.length; i++) {
                 let foundTag = await Tags.findOne({ title: tagsStrs[i] })
                 // if tag does NOT YET exist, create it and put it into temp arr
