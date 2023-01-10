@@ -69,7 +69,7 @@ router.put("/:id", async (req, res, next) => {
         let tagsStrs = req.body.tags
         let tagsIDs = []
         // if user post includes tags, search to see if they exist
-        if (tagsStrs.length > 0) {
+        if (tagsStrs && tagsStrs.length > 0) {
             for (i = 0; i < tagsStrs.length; i++) {
                 let foundTag = await Tags.findOne({ title: tagsStrs[i] })
                 // if tag does NOT YET exist, create it and put it into temp arr
