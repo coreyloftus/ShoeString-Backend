@@ -69,15 +69,29 @@ router.put("/:id", async (req, res, next) => {
     try {
         // handleValidateOwnership(req, await Posts.findByIdAndUpdate(req.params.id))
         // if user post includes tags, search to see if they exist
-        let foundTag = await Tags.findOne({ title: req.body.tags })
-        // if tag does NOT YET exist, create it and assign to req.body.tags
-        if (foundTag === null) {
-            const createTag = await Tags.create({ title: req.body.tags })
-            foundTag = createTag
+        let tagsStrs = req.body.tags
+        let tagsIDs = []
+        console.log(tagsStrs)
+        console.log(tagsStrs.length)
+        for (i = 0; i < tagsStrs.length; i++) {
+            let foundTag = await Tags.findOne({ title: tagsStrs[i] })
+            if (foundTag === null) {
+                const createTag = await Tags.create({ title: tagsStrs[i] })
+                newTag = createTag
+                tagsIDs.push(newTag._id)
+                console.log(`tag strings | ${tagsStrs}`)
+                console.log(`tag strings | ${tagsIDs}`)
+            } else {
+                console.log(`no new tags | tags= ${tagsStrs}`)
+                tagsIDs.push(foundTag._id)
+                console.log(`tag id added | tags= ${tagsIDs}`)
+            }
+            req.body.tags = tagsIDs
         }
+        // let foundTag = await Tags.findOne({ title: req.body.tags })
+        // if tag does NOT YET exist, create it and assign to req.body.tags
         // if tag DOES already exist, grab existing tag's ID and assign it to req.body.tags
         // so that way all posts that use this tag reference the same tag
-        req.body.tags = foundTag._id
         const updatePost = await Posts.findByIdAndUpdate(req.params.id, req.body, { new: true })
         res.status(201).json({ message: "successfully updated", updatePost })
     } catch (err) {
