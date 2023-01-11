@@ -30,9 +30,11 @@ ShoeString allows users to create posts containing a comment, latitude + longitu
     - Body Parser
     - Node.js
 
-## Wireframe Images
+## MVP Images (January 2023)
 ![ShoeString MVP Screenshot 1](readme-images/MVP-screenshot-1.png)
 ![ShoeString MVP Screenshot 2](readme-images/MVP-screenshot-2.png)
+
+## Wireframe Images
 ![ShoeString Wireframes](readme-images/ShoeString-Wireframes.png)
 
 ## Getting Started
