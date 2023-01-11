@@ -31,7 +31,8 @@ Backend:
 - Node.js
 
 ## Wireframe Images
-
+![ShoeString MVP Screenshot 1](readme-images/MVP-screenshot-1.png)
+![ShoeString MVP Screenshot 2](readme-images/MVP-screenshot-2.png)
 ![ShoeString Wireframes](readme-images/ShoeString-Wireframes.png)
 
 ## Getting Started
