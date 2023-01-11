@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt")
 const router = express.Router()
 const { createUserToken, requireToken } = require("../middleware/auth")
 
+// authController not active in MVP
 router.post("/register", async (req, res, next) => {
     try {
         if (!req.body.username || !req.body.password) {
