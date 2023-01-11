@@ -15,20 +15,20 @@ ShoeString is a digital guest book for Planet Earth -- an app where users can po
 ShoeString allows users to create posts containing a comment, latitude + longitude, tags, and images of their travels around the world. It then renders those posts in a feed. Users can also edit their comment body, or delete the post entirely.
 
 ## Technologies Used
-Frontend:
-- HTML/CSS
-- JavaScript
-- React.js
-- JSX
-- Node.js
+- Frontend:
+    - HTML/CSS
+    - JavaScript
+    - React.js
+    - JSX
+    - Node.js
 
-Backend:
-- Express
-- Mongoose
-- CORS
-- Morgan
-- Body Parser
-- Node.js
+- Backend:
+    - Express
+    - Mongoose
+    - CORS
+    - Morgan
+    - Body Parser
+    - Node.js
 
 ## Wireframe Images
 ![ShoeString MVP Screenshot 1](readme-images/MVP-screenshot-1.png)
