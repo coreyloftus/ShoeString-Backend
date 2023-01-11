@@ -33,6 +33,7 @@ ShoeString allows users to create posts containing a comment, latitude + longitu
 ## MVP Images (January 2023)
 ![ShoeString MVP Screenshot 1](readme-images/MVP-screenshot-1.png)
 ![ShoeString MVP Screenshot 2](readme-images/MVP-screenshot-2.png)
+![ShoeString MVP Screenshot 2](readme-images/MVP-screenshot-3.png)
 
 ## Wireframe Images
 ![ShoeString Wireframes](readme-images/ShoeString-Wireframes.png)
