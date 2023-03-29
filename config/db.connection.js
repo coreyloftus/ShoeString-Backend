@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
-const {MONGODB_URL} = process.env
+const {MONGODB_URI} = process.env
 
 mongoose.set('strictQuery', true)
-mongoose.connect(MONGODB_URL)
+mongoose.connect(MONGODB_URI)
 
 mongoose.connection
 .on("open", () => console.log("You are connected to mongoose"))

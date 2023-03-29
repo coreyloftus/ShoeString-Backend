@@ -3,6 +3,7 @@ const app = express()
 const cors = require("cors")
 const morgan = require("morgan")
 
+const authController = require("./controllers/authControllerMongo")
 const postsController = require("./controllers/postsController")
 const usersController = require("./controllers/usersController")
 const tagsController = require("./controllers/tagsController")
