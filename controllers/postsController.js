@@ -7,6 +7,8 @@ router.use(express.json())
 // index route
 // http://localhost:4000/posts
 router.get("/", async (req, res, next) => {
+    const auth = req.currentUser
+    console.log(auth)
     try {
         const allPosts = await Posts.find().populate("tags")
         res.status(200).json({ allPosts })

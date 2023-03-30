@@ -4,6 +4,7 @@ const cors = require("cors")
 const morgan = require("morgan")
 const bodyParser = require("body-parser")
 
+// const authController = require("./controllers/authControllerMongo")
 const postsController = require("./controllers/postsController")
 const usersController = require("./controllers/usersController")
 const tagsController = require("./controllers/tagsController")
@@ -12,13 +13,14 @@ const authController = require("./controllers/authController")
 require("dotenv").config()
 require("./config/db.connection")
 
-const { PORT } = process.env || 4000
 
-// parse application/json
-app.use(bodyParser.json())
+const decodeIDToken = require("./authenticateToken")
+
+const { PORT } = process.env
 
 app.use(cors())
 app.use(morgan("dev"))
+app.use(decodeIDToken)
 
 app.use("/posts", postsController)
 app.use("/users", usersController)
