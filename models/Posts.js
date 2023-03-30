@@ -1,13 +1,5 @@
 const mongoose = require("mongoose")
 
-
-// const TagsSchema = new mongoose.Schema(
-//     {
-//         title: { type: String },
-//     },
-//     { timestamps: true }
-// )
-
 const PostsSchema = new mongoose.Schema(
     {
         title: { type: String },
@@ -22,9 +14,4 @@ const PostsSchema = new mongoose.Schema(
     { timestamps: true }
 )
 
-
-// const Tags = mongoose.model("Tags", TagsSchema)
-const Posts = mongoose.model("Posts", PostsSchema)
-
-module.exports = { Posts }
-
+module.exports = mongoose.model("Posts", PostsSchema)
