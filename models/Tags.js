@@ -7,7 +7,4 @@ const TagsSchema = new mongoose.Schema(
     { timestamps: true }
 )
 
-const Tags = mongoose.model("Tags", TagsSchema)
-
-module.exports = Tags
-
+module.exports = mongoose.model("Tags", TagsSchema)
