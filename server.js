@@ -2,14 +2,17 @@ const express = require("express")
 const app = express()
 const cors = require("cors")
 const morgan = require("morgan")
+const bodyParser = require("body-parser")
 
 // const authController = require("./controllers/authControllerMongo")
 const postsController = require("./controllers/postsController")
 const usersController = require("./controllers/usersController")
 const tagsController = require("./controllers/tagsController")
+const authController = require("./controllers/authController")
 
 require("dotenv").config()
 require("./config/db.connection")
+
 
 const decodeIDToken = require("./authenticateToken")
 
@@ -18,9 +21,11 @@ const { PORT } = process.env
 app.use(cors())
 app.use(morgan("dev"))
 app.use(decodeIDToken)
+
 app.use("/posts", postsController)
 app.use("/users", usersController)
 app.use("/tags", tagsController)
+app.use("/auth", authController)
 
 app.get("/posts", (req, res) => {
     res.redirect("/posts")
@@ -31,7 +36,9 @@ app.get("/users", (req, res) => {
 app.get("/tags", (req, res) => {
     res.redirect("/tags")
 })
-
+app.get("/", (req, res) => {
+    res.redirect("/posts")
+})
 app.listen(PORT, () => {
     console.log(`listening on port ${PORT}`)
 })

@@ -10,3 +10,4 @@ const TagsSchema = new mongoose.Schema(
 const Tags = mongoose.model("Tags", TagsSchema)
 
 module.exports = Tags
+

@@ -1,9 +1,10 @@
 const express = require("express")
-const { Posts, Tags } = require("../models/Posts")
+const Posts = require("../models/Posts")
+const Tags = require("../models/Tags")
 const router = express.Router()
 router.use(express.json())
 
-// test index route
+// index route
 // http://localhost:4000/posts
 router.get("/", async (req, res, next) => {
     const auth = req.currentUser
@@ -22,12 +23,24 @@ router.get("/", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
     if (req.body.tags) {
         try {
-            let foundTag = await Tags.findOne({ title: req.body.tags })
-            if (foundTag === null) {
-                const createTag = await Tags.create({ title: req.body.tags })
-                foundTag = createTag
+            let tagsStrs = req.body.tags
+            let tagsIDs = []
+            // if user post includes tags, search to see if they exist
+            if (tagsStrs.length > 0) {
+                for (i = 0; i < tagsStrs.length; i++) {
+                    let foundTag = await Tags.findOne({ title: tagsStrs[i] })
+                    // if tag does NOT YET exist, create it and put it into temp arr
+                    if (foundTag === null) {
+                        const createTag = await Tags.create({ title: tagsStrs[i] })
+                        newTag = createTag
+                        tagsIDs.push(newTag._id)
+                    } else {
+                        // if tag DOES already exist, push existing tag's ID into temp arr
+                        tagsIDs.push(foundTag._id)
+                    }
+                    req.body.tags = tagsIDs
+                }
             }
-            req.body.tags = foundTag._id
             const createPost = await Posts.create(req.body)
             res.json(createPost)
         } catch (err) {
@@ -36,7 +49,7 @@ router.post("/", async (req, res, next) => {
         }
     } else {
         const createPost = await Posts.create(req.body)
-        res.json({ message: "no tags in message", createPost })
+        res.json({ message: "post created", createPost })
     }
 })
 
@@ -44,7 +57,7 @@ router.post("/", async (req, res, next) => {
 // http://localhost:4000/posts/:id
 router.get("/:id", async (req, res, next) => {
     try {
-        const foundPost = await Posts.findById(req.params.id)
+        const foundPost = await Posts.findById(req.params.id).populate("tags")
         res.status(200).json({ foundPost })
     } catch (err) {
         res.status(400).json({ error: err })
@@ -55,6 +68,24 @@ router.get("/:id", async (req, res, next) => {
 // http://localhost:4000/posts/:id
 router.put("/:id", async (req, res, next) => {
     try {
+        let tagsStrs = req.body.tags
+        let tagsIDs = []
+        // if user post includes tags, search to see if they exist
+        if (tagsStrs && tagsStrs.length > 0) {
+            for (i = 0; i < tagsStrs.length; i++) {
+                let foundTag = await Tags.findOne({ title: tagsStrs[i] })
+                // if tag does NOT YET exist, create it and put it into temp arr
+                if (foundTag === null) {
+                    const createTag = await Tags.create({ title: tagsStrs[i] })
+                    newTag = createTag
+                    tagsIDs.push(newTag._id)
+                } else {
+                    // if tag DOES already exist, push existing tag's ID into temp arr
+                    tagsIDs.push(foundTag._id)
+                }
+                req.body.tags = tagsIDs
+            }
+        }
         const updatePost = await Posts.findByIdAndUpdate(req.params.id, req.body, { new: true })
         res.status(201).json({ message: "successfully updated", updatePost })
     } catch (err) {
