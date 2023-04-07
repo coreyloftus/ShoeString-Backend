@@ -2,9 +2,9 @@ const mongoose = require("mongoose")
 
 const PostsSchema = new mongoose.Schema(
     {
-        title: { type: String },
         username: { type: String },
-        location: [{ type: Number }],
+        owner: { type: String },
+        location: [{ type: Number, index: "2dsphere" }],
         img: [{ type: String }],
         body: { type: String },
         tags: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tags" }],
