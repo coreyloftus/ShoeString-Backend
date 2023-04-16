@@ -4,10 +4,21 @@ const Tags = require("../models/Tags")
 const router = express.Router()
 router.use(express.json())
 
+const firebaseApp = require("../config/firebase.js")
+const { getAuth } = require("firebase/auth")
+
 // index route
 // http://localhost:4000/posts
 router.get("/", async (req, res, next) => {
     try {
+        getAuth()
+            .getUser(uid)
+            .then((userRecord) => {
+                console.log("Successfully fetched user data:", userRecord.toJSON())
+            })
+            .catch((error) => {
+                console.log("Error fetching user data:", error)
+            })
         const allPosts = await Posts.find().populate("tags")
         res.status(200).json({ allPosts })
     } catch (err) {

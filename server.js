@@ -1,11 +1,8 @@
 const express = require("express")
-const firebase = require("firebase-admin")
 const app = express()
 const bodyParser = require("body-parser")
 const cors = require("cors")
 const morgan = require("morgan")
-
-const firebaseConfig = require("./firebase/config")
 
 const postsController = require("./controllers/postsController")
 const usersController = require("./controllers/usersController")
