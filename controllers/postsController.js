@@ -5,7 +5,6 @@ const router = express.Router()
 router.use(express.json())
 
 const admin = require("../config/firebase")
-const { getAuth } = require("firebase/auth")
 
 // index route
 // http://localhost:4000/posts
@@ -26,36 +25,40 @@ router.get("/", async (req, res, next) => {
 
 // make it CRUD
 // CREATE
-router.post("/", async (req, res, next) => {
-    if (req.body.tags) {
-        try {
-            let tagsStrs = req.body.tags
-            let tagsIDs = []
-            // if user post includes tags, search to see if they exist
-            if (tagsStrs.length > 0) {
-                for (i = 0; i < tagsStrs.length; i++) {
-                    let foundTag = await Tags.findOne({ title: tagsStrs[i] })
-                    // if tag does NOT YET exist, create it and put it into temp arr
-                    if (foundTag === null) {
-                        const createTag = await Tags.create({ title: tagsStrs[i] })
-                        newTag = createTag
-                        tagsIDs.push(newTag._id)
-                    } else {
-                        // if tag DOES already exist, push existing tag's ID into temp arr
-                        tagsIDs.push(foundTag._id)
-                    }
-                    req.body.tags = tagsIDs
-                }
-            }
-            const createPost = await Posts.create(req.body)
-            res.json(createPost)
-        } catch (err) {
-            res.status(400).json({ error: err })
-            return next(err)
+
+const createTagsIfNotExist = async (tagsStrs) => {
+    let tagsIDs = []
+    // if user post includes tags, search to see if they exist
+    for (let i = 0; i < tagsStrs.length; i++) {
+        let foundTag = await Tags.findOne({ title: tagsStrs[i] })
+        if (foundTag === null) {
+            const createTag = await Tags.create({ title: tagsStrs[i] })
+            newTag = createTag
+            tagsIDs.push(newTag._id)
+        } else {
+            tagsIDs.push(foundTag._id)
         }
-    } else {
+    }
+    return tagsIDs
+}
+
+router.post("/", async (req, res, next) => {
+    try {
+        const idToken = req.header("Authorization").split(" ")[1]
+        const decodedToken = await admin.auth().verifyIdToken(idToken)
+        const uid = decodedToken.uid
+        const userRecord = await admin.auth().getUser(uid)
+        if (req.body.tags) {
+            const tagsIds = await createTagsIfNotExist(req.body.tags)
+            req.body.tags = tagsIds
+        }
+        req.body.owner = uid
+        req.body.username = userRecord.displayName
         const createPost = await Posts.create(req.body)
-        res.json({ message: "post created", createPost })
+        res.status(200).json({ message: "post created", createPost })
+    } catch (err) {
+        res.status(400).json({ error: err })
+        return next(err)
     }
 })
 
